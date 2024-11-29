@@ -11,10 +11,12 @@ const pkg = JSON.parse(await readFile(pkgPath, 'utf8'));
 program.name('crypto-tracker').description('CLI tool to track cryptocurrency prices').version(pkg.version);
 
 program
-  .command('prices')
-  .description('Get top 5 cryptocurrency prices')
-  .action(async () => {
-    const cryptos = await fetchTopCryptoCurrencies();
+  .command('price')
+  .description('Check price of top cryptocurrencies')
+  .option('--coin <id>', 'Cryptocurrency ID (bitcoin, ethereum etc)', 'bitcoin,ethereum,solana')
+  .action(async (cmd) => {
+    const cryptos = await fetchTopCryptoCurrencies(cmd);
+
     cryptos.forEach((crypto) => {
       const output = formatOutput(crypto);
 
