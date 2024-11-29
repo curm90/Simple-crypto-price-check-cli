@@ -1,8 +1,11 @@
+import chalk from 'chalk';
 import { apiBaseUrl } from '../constants/url.js';
 
-export const fetchTopCryptoCurrencies = async () => {
+export const fetchTopCryptoCurrencies = async (cmd) => {
+  const { coin } = cmd;
+
   try {
-    const res = await fetch(`${apiBaseUrl}/assets?limit=5`);
+    const res = await fetch(`${apiBaseUrl}/assets?ids=${coin}`);
 
     if (!res.ok) {
       throw new Error('Failed to fetch data');
@@ -12,7 +15,7 @@ export const fetchTopCryptoCurrencies = async () => {
 
     return data;
   } catch (error) {
-    console.error(error);
+    console.error(chalk.red(`Error: ${error.message}`));
     return [];
   }
 };
